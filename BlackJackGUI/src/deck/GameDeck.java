@@ -17,7 +17,7 @@ public class GameDeck {
 		}
 		
 		// shuffle deck
-		if (number > 1) {
+		if (number >= 1) {
 			shuffle();
 		}
 	}

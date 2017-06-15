@@ -27,18 +27,46 @@ public class Ruler {
 	}
 	
 	public static void playerHit() {
-		player.hit(gameDeck);
+		if(player.getPoints() < 21) {
+			player.hit(gameDeck);
+		}
+	}
+	
+	public static int getBet() {
+		return player.getBet();
+	}
+	
+	public static int getMoney() {
+		return player.getMoney();
+	}
+	
+	public static void playerBet(int bet) {
+		player.bet(bet);
 	}
 	
 	public static void playerDouble() {
 		
 	}
 	
+	public static void playerAddPrize() {
+		player.addPrize();
+	}
+	
 	public static ArrayList<Card> getDealerCards() {
 		return dealer.getCards();
 	}
 	
+	public static void dealerInitHand() {
+		dealer.hit(gameDeck);
+		dealer.hitHole(gameDeck);
+	}
+	
 	public static void dealerPlay() {
+		// Show all cards
+		for(int i = 0; i < dealer.getCards().size(); i ++) {
+			dealer.getCards().get(i).setIsHole(false);
+		}
+		
 		if(player.getPoints() <= 21) {
 			while(player.getPoints() > dealer.getPoints()) {
 				dealer.hit(gameDeck);
@@ -51,16 +79,31 @@ public class Ruler {
 	}
 	
 	// Evaluate
-	public static int evaluateWinner() {
+	public static int evaluateWinner() {		
 		// Return 1 if dealer win and 0 if player win 
 		if(dealer.hasBlackjack() || player.getPoints() > 21) {
+			player.resetBet();
 			return 1;
 		} else {
 			if(dealer.getPoints() <= 21 && dealer.getPoints() >= player.getPoints()) {
+				player.resetBet();
 				return 1;
 			} else {
+				player.addPrize();
 				return 0;
 			}
 		}
+	}
+	
+	public static boolean hasMoney() {
+		if(player.getMoney() == 0) 
+			return false;
+		else 
+			return true;
+	}
+	
+	public static void discartHands() {
+		player.discardHand(gameDeck);
+		dealer.discardHand(gameDeck);
 	}
 }

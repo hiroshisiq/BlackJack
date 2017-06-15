@@ -30,6 +30,12 @@ public class Dealer {
 		hand.takeCard(deck);
 	}
 	
+	void hitHole(GameDeck deck) {
+		// Take another card
+		hand.takeCard(deck);
+		hand.getCards().get(hand.getCards().size()-1).setIsHole(true);
+	}
+	
 	void startHand(GameDeck deck) {
 		// Take two cards
 		for(int i = 0; i < 2; i++) {

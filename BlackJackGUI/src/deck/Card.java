@@ -3,10 +3,22 @@ package deck;
 public class Card {
 	Rank rank;
 	Suit suit;
+	boolean isHole = false;
+	
+	public void setIsHole(boolean isHole) {
+		this.isHole = isHole;
+	}
 	
 	public Card(Rank rank, Suit suit) {
 		this.rank = rank;
 		this.suit = suit;
+	}
+	
+	public String filePath() {
+		if(isHole)
+			return "../images/cardback/cardback1.png";
+		else 
+			return "../images/cards/" + this.toString() + ".png";
 	}
 
 	public String toString() {

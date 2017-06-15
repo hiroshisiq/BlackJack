@@ -41,9 +41,9 @@ public class Hand {
 	}
 	
 	public void discard(GameDeck deck) {
-		for(Card card : cards) {
-			deck.discard(card);
-			cards.remove(card);
+		for(int i = cards.size() - 1; i >= 0; i--) {
+			deck.discard(cards.get(i));
+			cards.remove(i);
 		}
 	}
 	

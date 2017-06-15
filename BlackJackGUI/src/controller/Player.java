@@ -28,13 +28,18 @@ public class Player {
 		return bet;
 	}
 	
+	public void resetBet() {
+		bet = 0;
+	}
+	
 	void bet(int value) {
-		if(value > money) 
-			bet = value - money;
-		else
-			bet = value;
-		
-		money -= bet;
+		if(value <= money) { 
+			bet += value;
+			money -= value;
+		} else {
+			bet += money;
+			money = 0;
+		}
 	}
 	
 	int getMoney() {
@@ -43,10 +48,7 @@ public class Player {
 	
 	void addPrize() {
 		money += 2*bet;
-	}
-	
-	void stand() {
-		// TODO
+		bet = 0;
 	}
 	
 	void doubleBet() {

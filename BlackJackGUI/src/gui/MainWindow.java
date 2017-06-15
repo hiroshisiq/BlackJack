@@ -46,6 +46,10 @@ public class MainWindow {
 	static void changeToGamePanel() {
 		window.getContentPane().remove(menu);
 		window.getContentPane().add(game);
+		
+		game.reset();
+		game.repaint();
+		
 		window.setVisible(true);
 		window.repaint();
 	}

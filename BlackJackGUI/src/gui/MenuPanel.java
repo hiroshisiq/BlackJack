@@ -7,6 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.Ruler;
+
 @SuppressWarnings("serial")
 public class MenuPanel extends JPanel {
 	
@@ -77,8 +79,9 @@ public class MenuPanel extends JPanel {
 		startLabel.addMouseListener(new MouseListener() {
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {
-				MainWindow.changeToGamePanel();
 				resize(100,50);
+				Ruler.configure(1);
+				MainWindow.changeToGamePanel();
 			}
 
 			public void mouseEntered(MouseEvent e) {
