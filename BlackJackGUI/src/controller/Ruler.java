@@ -45,7 +45,12 @@ public class Ruler {
 	}
 	
 	public static void playerDouble() {
-		
+		player.doubleBet();
+		player.hit(gameDeck);
+	}
+	
+	public static boolean playerCanDouble() {
+		return (player.getBet()/2 <= player.getMoney())? true : false;
 	}
 	
 	public static void playerAddPrize() {

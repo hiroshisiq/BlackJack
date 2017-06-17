@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,8 +23,8 @@ public class GamePanel extends JPanel {
 	private boolean hasBet = false;
 	private boolean hasStand = false;
 	private boolean firstGame;
+	private static final int darkFactor = -20;
 
-	
 	GamePanel() {
 		setLayout(new BorderLayout());
 		GraphicUtils.setGreenBackground(this);
@@ -38,38 +37,51 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void addBackButton() {
-		// Load image
-		ImageIcon img = new ImageIcon("../images/buttons/back.png");
-		img = GraphicUtils.getScaledImage(img, 50, 50);
-		
 		// Create label
-		JLabel back = new JLabel(img);
+		JLabel back = new JLabel();
 		back.setHorizontalAlignment(JLabel.LEFT);
 		
+		// Load image
+		String imagePath = "../images/buttons/back2.png";
+		GraphicUtils.loadImage(back, imagePath, 50, 50, 0);
+		
 		// Add listener
-		back.addMouseListener(new MouseListener() {
+		back.addMouseListener(new MouseListener() {			
 			// Change to game panel
-			public void mousePressed(MouseEvent e) {
-				MainWindow.changeToMenuPanel();
-				resize(50,50);
+			public void mousePressed(MouseEvent e) {				
+				Object[] options = {"Yes", "No"};
+		
+				int n = JOptionPane.showOptionDialog(back,
+						"If you go back to main menu you will lose your progress.\n"
+					    + "Do you want to go back to main menu?",
+					    "Warning",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.PLAIN_MESSAGE,
+						null,     
+						options,  
+						options[1]); 
+		
+				// Check if need to go back to main menu
+				if(n == 0) {
+					MainWindow.changeToMenuPanel();
+				}
+					
+				GraphicUtils.loadImage(back, imagePath, 50, 50, 0);				
 			}
 
 			public void mouseEntered(MouseEvent e) {
-				resize(52,52);
+				GraphicUtils.loadImage(back, imagePath, 50, 50, -20);
 			}
 
 			public void mouseExited(MouseEvent e) {
-				resize(50,50);
+				GraphicUtils.loadImage(back, imagePath, 50, 50, 0);
+			}
+			
+			public void mouseReleased(MouseEvent e) {
+				GraphicUtils.loadImage(back, imagePath, 50, 50, 0);
 			}
 			
 			public void mouseClicked(MouseEvent e) {}
-			public void mouseReleased(MouseEvent e) {}	
-			
-			private void resize(int w, int h) {
-				ImageIcon img = new ImageIcon("../images/buttons/back.png");
-				img = GraphicUtils.getScaledImage(img, w, h);
-				back.setIcon(img);
-			}	
 		});
 		
 		// Box layout
@@ -84,11 +96,12 @@ public class GamePanel extends JPanel {
 	}
 
 	private void addGameButtons() {
-		JPanel buttonPanel = new JPanel(new GridLayout(1,3));
+		JPanel buttonPanel = new JPanel(new GridLayout(1,4));
 		GraphicUtils.setGreenBackground(buttonPanel);
 		
 		// Add hit button
 		addHitButton(buttonPanel);
+		addDoubleButton(buttonPanel);
 		addStandButton(buttonPanel);
 		addBetButton(buttonPanel);
 		
@@ -97,67 +110,145 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void addHitButton(JPanel panel) {
-		// Load images
-		ImageIcon img = new ImageIcon("../images/buttons/hit.png");
-		img = GraphicUtils.getScaledImage(img, 60, 50);
-		
 		// Generate label
 		JLabel hit = new JLabel();
-		hit.setIcon(img);
 		hit.setHorizontalAlignment(JLabel.CENTER);
+		
+		// Load Images
+		String path = "../images/buttons/hit.png";
+		int w = 60, h = 50;
+		GraphicUtils.loadImage(hit, path, w, h, 0);
 		
 		// Add listener
 		hit.addMouseListener(new MouseListener() {
+			// activate button 
+			private boolean isButtonActive() {
+				return (hasBet == true) && (hasStand == false) && (Ruler.getPlayerPoints() < 21);
+			}
+			
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {
-				resize(55, 50);
-				if(hasBet == true && hasStand == false) {  
+				if(isButtonActive()) {  
+					// Makes button 70x brighter
+					GraphicUtils.loadImage(hit, path, w+1, h, 3*darkFactor);
 					Ruler.playerHit();
 					addCardGrid();
 				}
 			}
 						
 			public void mouseEntered(MouseEvent e) {
-				resize(65, 50);
+				// Makes button 20x brighter
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(hit, path, w, h, darkFactor);
+				}
 			}
 
 			public void mouseExited(MouseEvent e) {
-				resize(60, 50);
+				GraphicUtils.loadImage(hit, path, w, h, 0);
 			}
 			
 			public void mouseReleased(MouseEvent e) {
-				resize(65, 50);
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(hit, path, w, h, darkFactor);
+				} else {
+					GraphicUtils.loadImage(hit, path, w, h, 0);
+				}
 			}	
 			
 			public void mouseClicked(MouseEvent e) {}
-			
-			private void resize(int w, int h) {
-				ImageIcon img = new ImageIcon("../images/buttons/hit.png");
-		        img = GraphicUtils.getScaledImage(img, w, h);
-				hit.setIcon(img);	
-			}			
 		});
 		
 		// Add to panel
 		panel.add(hit);
 	}
 	
-	private void addStandButton(JPanel panel) {
-		// Load images
-		ImageIcon img = new ImageIcon("../images/buttons/stand.png");
-		img = GraphicUtils.getScaledImage(img, 100, 50);
+	private void addDoubleButton(JPanel panel) {
+		// Generate label
+		JLabel button = new JLabel();
+		button.setHorizontalAlignment(JLabel.CENTER);
 		
+		// Load Images
+		String path = "../images/buttons/double.png";
+		int w = 120, h = 50;
+		GraphicUtils.loadImage(button, path, w, h, 0);
+		
+		// Add listener
+		button.addMouseListener(new MouseListener() {
+			// activate button 
+			private boolean isButtonActive() {
+				return (hasBet == true) && (hasStand == false) && Ruler.playerCanDouble()
+						&& (Ruler.getPlayerPoints() < 21) && (Ruler.getPlayerCards().size() == 2);
+			}
+			
+			// Change to game panel
+			public void mousePressed(MouseEvent e) {
+				if(isButtonActive()) {  
+					// Makes button 70x brighter
+					GraphicUtils.loadImage(button, path, w+1, h, 3*darkFactor);
+					Ruler.playerDouble();
+					addCardGrid();
+					
+					// Dealers turn
+					hasStand = true;
+					Ruler.dealerPlay();
+					
+					// Evaluate if player wins
+					if(Ruler.evaluateWinner() == 0) {
+						Ruler.playerAddPrize();
+						addCardGrid("You win [Click to continue]");
+					}  else {
+						addCardGrid("Dealer win [Click to continue]");
+					}
+				}
+			}
+						
+			public void mouseEntered(MouseEvent e) {
+				// Makes button 20x brighter
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(button, path, w, h, darkFactor);
+				}
+			}
+
+			public void mouseExited(MouseEvent e) {
+				GraphicUtils.loadImage(button, path, w, h, 0);
+			}
+			
+			public void mouseReleased(MouseEvent e) {
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(button, path, w, h, darkFactor);
+				} else {
+					GraphicUtils.loadImage(button, path, w, h, 0);
+				}
+			}	
+			
+			public void mouseClicked(MouseEvent e) {}
+		});
+		
+		// Add to panel
+		panel.add(button);
+	}
+	
+	private void addStandButton(JPanel panel) {
 		// Generate label
 		JLabel stand = new JLabel();
-		stand.setIcon(img);
 		stand.setHorizontalAlignment(JLabel.CENTER);
+		
+		// Load Images
+		String path = "../images/buttons/stand.png";
+		int w = 100, h = 50;
+		GraphicUtils.loadImage(stand, path, w, h, 0);
 		
 		// Add listener
 		stand.addMouseListener(new MouseListener() {
+			// activate button 
+			private boolean isButtonActive() {
+				return (hasBet == true && hasStand == false);
+			}
+			
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {
-				resize(90, 50);
-				if(hasBet == true && hasStand == false) {
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(stand, path, w+1, h, 3*darkFactor);
 					hasStand = true;
 					Ruler.dealerPlay();
 					
@@ -172,24 +263,22 @@ public class GamePanel extends JPanel {
 			}
 						
 			public void mouseEntered(MouseEvent e) {
-				resize(110, 50);
+				if(isButtonActive())
+					GraphicUtils.loadImage(stand, path, w, h, darkFactor);
 			}
 
 			public void mouseExited(MouseEvent e) {
-				resize(100, 50);
+				GraphicUtils.loadImage(stand, path, w, h, 0);
 			}
 			
 			public void mouseReleased(MouseEvent e) {
-				resize(110, 50);
+				if(isButtonActive())
+					GraphicUtils.loadImage(stand, path, w, h, darkFactor);
+				else 
+					GraphicUtils.loadImage(stand, path, w, h, 0);
 			}	
 			
-			public void mouseClicked(MouseEvent e) {}
-			
-			private void resize(int w, int h) {
-				ImageIcon img = new ImageIcon("../images/buttons/stand.png");
-		        img = GraphicUtils.getScaledImage(img, w, h);
-				stand.setIcon(img);	
-			}			
+			public void mouseClicked(MouseEvent e) {}			
 		});
 		
 		// Add to panel
@@ -200,21 +289,26 @@ public class GamePanel extends JPanel {
 		JPanel betPanel = new JPanel(new GridLayout(2,1));
 		GraphicUtils.setGreenBackground(betPanel);
 		
-		// Load bet image
-		ImageIcon img = new ImageIcon("../images/buttons/bet.png");
-		img = GraphicUtils.getScaledImage(img, 60, 50);
-		
 		// Generate label
 		JLabel bet = new JLabel();
-		bet.setIcon(img);
 		bet.setHorizontalAlignment(JLabel.CENTER);
 		
+		// Load Images
+		String path = "../images/buttons/bet.png";
+		int w = 60, h = 50;
+		GraphicUtils.loadImage(bet, path, w, h, 0);
+				
 		// Add listener 
 		bet.addMouseListener(new MouseListener() {
+			// activate button 
+			private boolean isButtonActive() {
+				return (Ruler.getBet() > 0 && hasBet == false);
+			}
+			
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {
-				resize(55, 50);
-				if(Ruler.getBet() > 0 && hasBet == false) {
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(bet, path, w+1, h, 3*darkFactor);
 					Ruler.playerHit();
 					Ruler.playerHit();
 					Ruler.dealerInitHand();
@@ -224,24 +318,24 @@ public class GamePanel extends JPanel {
 			}
 						
 			public void mouseEntered(MouseEvent e) {
-				resize(65, 50);
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(bet, path, w, h, darkFactor);
+				}
 			}
 
 			public void mouseExited(MouseEvent e) {
-				resize(60, 50);
+				GraphicUtils.loadImage(bet, path, w, h, 0);
 			}
 			
 			public void mouseReleased(MouseEvent e) {
-				resize(60, 50);
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(bet, path, w, h, darkFactor);
+				} else {
+					GraphicUtils.loadImage(bet, path, w, h, 0);
+				}
 			}	
 			
 			public void mouseClicked(MouseEvent e) {}
-			
-			private void resize(int w, int h) {
-				ImageIcon img = new ImageIcon("../images/buttons/bet.png");
-				img = GraphicUtils.getScaledImage(img, w, h);
-				bet.setIcon(img);	
-			}			
 		});
 		
 		// Crate bet values buttons
@@ -261,45 +355,48 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void addBetValueButton(JPanel panel, int value) {
-		// Load bet image
-		ImageIcon img = new ImageIcon("../images/buttons/" + Integer.toString(value) + ".png");
-		img = GraphicUtils.getScaledImage(img, 60, 50);
-		
 		// Generate label
 		JLabel bet = new JLabel();
-		bet.setIcon(img);
 		bet.setHorizontalAlignment(JLabel.CENTER);
+		
+		// Load Images
+		String path = "../images/buttons/" + Integer.toString(value) + ".png";
+		int w = value > 99 ? 60 : 40, h = 50;
+		GraphicUtils.loadImage(bet, path, w, h, 0);		
 		
 		// Add listener
 		bet.addMouseListener(new MouseListener() {
+			// activate button 
+			private boolean isButtonActive() {	
+				return hasBet == false;
+			}
+
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {
-				resize(55, 50);
-				if(hasBet == false) {
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(bet, path, w+1, h, 3*darkFactor);
 					Ruler.playerBet(value);
 					addCardGrid();
 				}
 			}
 						
 			public void mouseEntered(MouseEvent e) {
-				resize(65, 50);
+				if(isButtonActive())
+					GraphicUtils.loadImage(bet, path, w, h, darkFactor);
 			}
 
 			public void mouseExited(MouseEvent e) {
-				resize(60, 50);
+				GraphicUtils.loadImage(bet, path, w, h, 0);
 			}
 			
 			public void mouseReleased(MouseEvent e) {
-				resize(60, 50);
+				if(isButtonActive())
+					GraphicUtils.loadImage(bet, path, w+1, h, darkFactor);
+				else
+					GraphicUtils.loadImage(bet, path, w+1, h, 0);
 			}	
 			
 			public void mouseClicked(MouseEvent e) {}
-			
-			private void resize(int w, int h) {
-				ImageIcon img = new ImageIcon("../images/buttons/" + Integer.toString(value) + ".png");
-				img = GraphicUtils.getScaledImage(img, w, h);
-				bet.setIcon(img);	
-			}			
 		});
 		
 		panel.add(bet);
@@ -316,6 +413,7 @@ public class GamePanel extends JPanel {
 		
 		// Add to game panel
 		add(cardGrid);
+		cardGrid.repaint();
 	}
 	
 	private void addCardGrid(String extraText) {
@@ -331,13 +429,17 @@ public class GamePanel extends JPanel {
 		add(cardGrid);
 	}
 	
-	private void showCards(JPanel panel, ArrayList<Card> hand) {
+	private void showCards(JPanel panel, ArrayList<Card> hand) {		
 		ArrayList<JLabel> cards = new ArrayList<JLabel>();
 		
+		// cards width and height 
+		int w = 80,h = 120;
+		
+		// Load cards
 		for(Card card : hand) {
 			// Load card image
 			ImageIcon img = new ImageIcon(card.filePath());
-			img = GraphicUtils.getScaledImage(img, 70, 100);
+			img = GraphicUtils.getScaledImage(img, w, h);
 			
 			// Generate label
 			JLabel cardLabel = new JLabel();
@@ -357,8 +459,14 @@ public class GamePanel extends JPanel {
 			box.add(cardLabel);
 		}
 		
+		// Generate another box layout
+		JPanel box2 = new JPanel();
+		box2.setLayout(new BoxLayout(box2, BoxLayout.Y_AXIS));
+		GraphicUtils.setGreenBackground(box2);
+		box2.add(box);
+		
 		// Add to panel
-		panel.add(box);		
+		panel.add(box2);		
 	}
 		
 	private void showStatusLabel(JPanel panel, String text) {

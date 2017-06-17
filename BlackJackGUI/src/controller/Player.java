@@ -52,7 +52,10 @@ public class Player {
 	}
 	
 	void doubleBet() {
-		bet *= 2;
+		if(bet <= money) {
+			money -= bet;
+			bet *= 2;		
+		}
 	}
 	
 	void hit(GameDeck deck) {
