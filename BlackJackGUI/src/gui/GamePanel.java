@@ -24,19 +24,24 @@ public class GamePanel extends JPanel {
 	private boolean hasStand = false;
 	private boolean firstGame;
 	private static final int darkFactor = -20;
+	JLabel reCLabel = new JLabel();
 
 	GamePanel() {
 		setLayout(new BorderLayout());
 		GraphicUtils.setGreenBackground(this);
 		
 		// Buttons
-		addBackButton();
+		addBackButton(this);
 		addGameButtons();
+		
+		// Remaining cards
+		showRemaningCards();
+		add(reCLabel, BorderLayout.EAST);
 		
 		firstGame = false;	
 	}
 	
-	private void addBackButton() {
+	private void addBackButton(JPanel panel) {
 		// Create label
 		JLabel back = new JLabel();
 		back.setHorizontalAlignment(JLabel.LEFT);
@@ -51,7 +56,7 @@ public class GamePanel extends JPanel {
 			public void mousePressed(MouseEvent e) {				
 				Object[] options = {"Yes", "No"};
 		
-				int n = JOptionPane.showOptionDialog(back,
+				int n = JOptionPane.showOptionDialog(panel,
 						"If you go back to main menu you will lose your progress.\n"
 					    + "Do you want to go back to main menu?",
 					    "Warning",
@@ -100,6 +105,7 @@ public class GamePanel extends JPanel {
 		GraphicUtils.setGreenBackground(buttonPanel);
 		
 		// Add hit button
+		showRemaningCards();
 		addHitButton(buttonPanel);
 		addDoubleButton(buttonPanel);
 		addStandButton(buttonPanel);
@@ -133,6 +139,19 @@ public class GamePanel extends JPanel {
 					GraphicUtils.loadImage(hit, path, w+1, h, 3*darkFactor);
 					Ruler.playerHit();
 					addCardGrid();
+					
+					if(Ruler.getPlayerPoints() > 21) {
+						hasStand = true;
+						Ruler.dealerPlay();
+						
+						// If player wins
+						if(Ruler.evaluateWinner() == 0) {
+							Ruler.playerAddPrize();
+							addCardGrid("You win [Click to continue]");
+						}  else {
+							addCardGrid("Dealer win [Click to continue]");
+						}
+					}
 				}
 			}
 						
@@ -314,6 +333,13 @@ public class GamePanel extends JPanel {
 					Ruler.dealerInitHand();
 					hasBet = true;
 					addCardGrid();
+					
+					if(Ruler.dealerHasBlackjack()) {
+						hasBet = true;
+						hasStand = true;
+						Ruler.dealerPlay();
+						addCardGrid("Dealer has Blackjack [Click to continue]");
+					}
 				}
 			}
 						
@@ -407,6 +433,7 @@ public class GamePanel extends JPanel {
 		GraphicUtils.setGreenBackground(cardGrid);
 		
 		// Add cards and display
+		showRemaningCards();
 		showCards(cardGrid, Ruler.getDealerCards());
 		showStatusLabel(cardGrid, "");
 		showCards(cardGrid, Ruler.getPlayerCards());
@@ -421,6 +448,7 @@ public class GamePanel extends JPanel {
 		GraphicUtils.setGreenBackground(cardGrid);
 		
 		// Add cards and display
+		showRemaningCards();
 		showCards(cardGrid, Ruler.getDealerCards());
 		showStatusLabel(cardGrid, extraText);
 		showCards(cardGrid, Ruler.getPlayerCards());
@@ -517,6 +545,15 @@ public class GamePanel extends JPanel {
 		
 		// Add to panel
 		panel.add(status);
+	}
+	
+	private void showRemaningCards() {
+		String text = "Deck Cards " + Ruler.getRemainingCards();
+		reCLabel.setText(GraphicUtils.verticalHtml(text));
+		
+		reCLabel.setHorizontalAlignment(JLabel.CENTER);
+		reCLabel.setFont(new Font(reCLabel.getFont().getFontName(), Font.PLAIN, 20));
+		reCLabel.setForeground(new Color(0,0,0));		
 	}
 	
 	void gameRepaint() {

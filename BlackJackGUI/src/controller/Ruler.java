@@ -1,7 +1,6 @@
 package controller;
 
 import java.util.ArrayList;
-//import deck.Hand;
 import deck.Card;
 import deck.GameDeck;
 
@@ -9,10 +8,13 @@ public class Ruler {
 	private static Dealer dealer;
 	private static Player player;
 	private static GameDeck gameDeck;
+	private static int cardStyle = 1;
+	private static int numberOfDecks = 4;
+	private static int remainingCards = 0;
 	
 	private final static int initialMoney = 2000;
 	
-	public static void configure(int numberOfDecks) {
+	public static void configure() {
 		player = new Player(initialMoney);
 		dealer = new Dealer();		
 		gameDeck = new GameDeck(numberOfDecks);
@@ -110,5 +112,51 @@ public class Ruler {
 	public static void discartHands() {
 		player.discardHand(gameDeck);
 		dealer.discardHand(gameDeck);
+	}
+	
+	public static void nextCardStyle() {
+		if(cardStyle == 7)
+			cardStyle = 1;
+		else
+			cardStyle++;
+		
+		Card.setCardStyle(cardStyle);
+	}
+	
+	public static void prevCardStyle() {
+		if(cardStyle == 1)
+			cardStyle = 7;
+		else
+			cardStyle--;
+		
+		Card.setCardStyle(cardStyle);
+	}
+	
+	public static String getNumOfDecks() {
+		return Integer.toString(numberOfDecks);
+	}
+	
+	// Next number of decks
+	public static void nextNOD() {
+		if(numberOfDecks == 8)
+			numberOfDecks = 1;
+		else
+			numberOfDecks++;
+	}
+	
+	// Previous number of decks
+	public static void prevNOD() {
+		if(numberOfDecks == 1)
+			numberOfDecks = 8;
+		else
+			numberOfDecks--;
+	}
+	
+	public static String getRemainingCards() {
+		return Integer.toString(remainingCards);
+	}
+	
+	public static void setRemainingCards(int n) {
+		remainingCards = n;
 	}
 }

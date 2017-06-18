@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import controller.Ruler;
+
 public class GameDeck {
 	private ArrayList<Card> cards   = new ArrayList<Card>();
 	private ArrayList<Card> discard = new ArrayList<Card>();
@@ -20,6 +22,8 @@ public class GameDeck {
 		if (number >= 1) {
 			shuffle();
 		}
+		
+		Ruler.setRemainingCards(this.getDeckSize());
 	}
 	
 	public void discard(Card card) {
@@ -45,6 +49,7 @@ public class GameDeck {
 	private Card popCard() {
 		Card tmp = cards.get(cards.size() - 1);
 		cards.remove(cards.size() - 1);
+		Ruler.setRemainingCards(getDeckSize());
 		return tmp;
 	}
 	

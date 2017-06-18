@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 public class GraphicUtils {
 	
 	public static ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
+		// Adapted from stack overflow
 	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g2 = resizedImg.createGraphics();
 
@@ -23,6 +24,17 @@ public class GraphicUtils {
 	    g2.dispose();
 
 	    return new ImageIcon(resizedImg);
+	}
+	
+	public static String verticalHtml(String text) {
+		// from: https://stackoverflow.com/questions/14777926/java-how-to-make-a-jlabel-with-vertical-text
+	    String ans = "<html>";
+	    String[] letters = text.split("");
+	    for (String letter : letters) {
+	        ans += letter + "<br>";
+	    }
+	    ans += "</html>";
+	    return ans;
 	}
 	
 	public static void setGreenBackground(Container cont) {

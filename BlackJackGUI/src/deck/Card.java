@@ -4,6 +4,7 @@ public class Card {
 	Rank rank;
 	Suit suit;
 	boolean isHole = false;
+	static int cardStyle = 1;
 	
 	public void setIsHole(boolean isHole) {
 		this.isHole = isHole;
@@ -14,9 +15,17 @@ public class Card {
 		this.suit = suit;
 	}
 	
+	public static void setCardStyle(int n) {
+		cardStyle = n;
+	}
+	
+	public static String getStylePath() {
+		return "../images/cardback/cardback" + Integer.toString(cardStyle) + ".png";
+	}
+	
 	public String filePath() {
 		if(isHole)
-			return "../images/cardback/cardback1.png";
+			return "../images/cardback/cardback" + Integer.toString(cardStyle) + ".png";
 		else 
 			return "../images/cards/" + this.toString() + ".png";
 	}

@@ -80,7 +80,7 @@ public class MenuPanel extends JPanel {
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {
 				resize(100,50);
-				Ruler.configure(1);
+				Ruler.configure();
 				MainWindow.changeToGamePanel();
 			}
 
@@ -106,6 +106,7 @@ public class MenuPanel extends JPanel {
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {
 				resize(140,50);
+				MainWindow.changeToOptionsPanel();
 			}
 						
 			public void mouseEntered(MouseEvent e) {
