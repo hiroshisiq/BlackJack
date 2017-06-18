@@ -30,7 +30,7 @@ public class OptionsPanel extends JPanel{
 		back.setHorizontalAlignment(JLabel.LEFT);
 		
 		// Load image
-		String imagePath = "../images/buttons/back2.png";
+		String imagePath = "images/buttons/back2.png";
 		GraphicUtils.loadImage(back, imagePath, 50, 50, 0);
 		
 		// Add listener
@@ -100,13 +100,13 @@ public class OptionsPanel extends JPanel{
 				
 		// Load Images
 		int w = 50, h = 50,darkFactor = -40; // Arrows constants
-		String pathCS = "../images/etc/cs.png";
+		String pathCS = "images/etc/cs.png";
 		GraphicUtils.loadImage(cs, pathCS, 200, 50, 0);
-		String pathLA = "../images/buttons/larrow.png";
+		String pathLA = "images/buttons/larrow.png";
 		GraphicUtils.loadImage(la, pathLA, w, h, 0);
 		String pathCB = Card.getStylePath();
 		GraphicUtils.loadImage(cb, pathCB, 100, 150, 0);
-		String pathRA = "../images/buttons/rarrow.png";
+		String pathRA = "images/buttons/rarrow.png";
 		GraphicUtils.loadImage(ra, pathRA, w, h, 0);
 		
 		// Add listeners
@@ -189,13 +189,13 @@ public class OptionsPanel extends JPanel{
 				
 		// Load Images
 		int w = 50, h = 50,darkFactor = -40; // Arrows constants
-		String pathND = "../images/etc/nodecks.png";
+		String pathND = "images/etc/nodecks.png";
 		GraphicUtils.loadImage(nd, pathND, 300, 50, 0);
-		String pathLA = "../images/buttons/larrow.png";
+		String pathLA = "images/buttons/larrow.png";
 		GraphicUtils.loadImage(la, pathLA, 50, 50, 0);
 		String pathNU = getNumberPath();
 		GraphicUtils.loadImage(nu, pathNU, 60, 80, 0);
-		String pathRA = "../images/buttons/rarrow.png";
+		String pathRA = "images/buttons/rarrow.png";
 		GraphicUtils.loadImage(ra, pathRA, 50, 50, 0);
 		
 		// Add listeners
@@ -259,7 +259,7 @@ public class OptionsPanel extends JPanel{
 	}
 	
 	private String getNumberPath() {
-		return "../images/etc/" + Ruler.getNumOfDecks() + ".png";
+		return "images/etc/" + Ruler.getNumOfDecks() + ".png";
 	}
 
 }

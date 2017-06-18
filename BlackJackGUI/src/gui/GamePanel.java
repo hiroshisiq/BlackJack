@@ -47,7 +47,7 @@ public class GamePanel extends JPanel {
 		back.setHorizontalAlignment(JLabel.LEFT);
 		
 		// Load image
-		String imagePath = "../images/buttons/back2.png";
+		String imagePath = "images/buttons/back2.png";
 		GraphicUtils.loadImage(back, imagePath, 50, 50, 0);
 		
 		// Add listener
@@ -121,7 +121,7 @@ public class GamePanel extends JPanel {
 		hit.setHorizontalAlignment(JLabel.CENTER);
 		
 		// Load Images
-		String path = "../images/buttons/hit.png";
+		String path = "images/buttons/hit.png";
 		int w = 60, h = 50;
 		GraphicUtils.loadImage(hit, path, w, h, 0);
 		
@@ -187,7 +187,7 @@ public class GamePanel extends JPanel {
 		button.setHorizontalAlignment(JLabel.CENTER);
 		
 		// Load Images
-		String path = "../images/buttons/double.png";
+		String path = "images/buttons/double.png";
 		int w = 120, h = 50;
 		GraphicUtils.loadImage(button, path, w, h, 0);
 		
@@ -253,7 +253,7 @@ public class GamePanel extends JPanel {
 		stand.setHorizontalAlignment(JLabel.CENTER);
 		
 		// Load Images
-		String path = "../images/buttons/stand.png";
+		String path = "images/buttons/stand.png";
 		int w = 100, h = 50;
 		GraphicUtils.loadImage(stand, path, w, h, 0);
 		
@@ -313,7 +313,7 @@ public class GamePanel extends JPanel {
 		bet.setHorizontalAlignment(JLabel.CENTER);
 		
 		// Load Images
-		String path = "../images/buttons/bet.png";
+		String path = "images/buttons/bet.png";
 		int w = 60, h = 50;
 		GraphicUtils.loadImage(bet, path, w, h, 0);
 				
@@ -386,7 +386,7 @@ public class GamePanel extends JPanel {
 		bet.setHorizontalAlignment(JLabel.CENTER);
 		
 		// Load Images
-		String path = "../images/buttons/" + Integer.toString(value) + ".png";
+		String path = "images/buttons/" + Integer.toString(value) + ".png";
 		int w = value > 99 ? 60 : 40, h = 50;
 		GraphicUtils.loadImage(bet, path, w, h, 0);		
 		

@@ -24,7 +24,7 @@ public class MenuPanel extends JPanel {
 	
 	private void addTitleImage() {
 		// Load image
-		ImageIcon image = new ImageIcon("../images/etc/bjtitle.png");
+		ImageIcon image = new ImageIcon("images/etc/bjtitle.png");
 		
 		// Create label and set image
 		JLabel label = new JLabel();
@@ -37,7 +37,7 @@ public class MenuPanel extends JPanel {
 	
 	private void addBackgroundImage() {
 		// Load image
-		//ImageIcon image = new ImageIcon("../images/etc/cgreen0.png");
+		//ImageIcon image = new ImageIcon("images/etc/cgreen0.png");
 		
 		GraphicUtils.setGreenBackground(this);
 	}
@@ -48,13 +48,13 @@ public class MenuPanel extends JPanel {
 		GraphicUtils.setGreenBackground(bPanel);
 		
 		// Load images
-		ImageIcon startImage = new ImageIcon("../images/buttons/startb.png");
+		ImageIcon startImage = new ImageIcon("images/buttons/startb.png");
 		startImage = GraphicUtils.getScaledImage(startImage, 100, 50);
 		
-		ImageIcon optionsImage = new ImageIcon("../images/buttons/optionsb.png");
+		ImageIcon optionsImage = new ImageIcon("images/buttons/optionsb.png");
 		optionsImage = GraphicUtils.getScaledImage(optionsImage, 140, 50);
 		
-		ImageIcon exitImage = new ImageIcon("../images/buttons/exitb.png");
+		ImageIcon exitImage = new ImageIcon("images/buttons/exitb.png");
 		exitImage = GraphicUtils.getScaledImage(exitImage, 80, 50);
 		
 		// Create label and set image
@@ -96,7 +96,7 @@ public class MenuPanel extends JPanel {
 			public void mouseReleased(MouseEvent e) {}
 			
 			private void resize(int w, int h) {
-				ImageIcon startImage = new ImageIcon("../images/buttons/startb.png");
+				ImageIcon startImage = new ImageIcon("images/buttons/startb.png");
 				startImage = GraphicUtils.getScaledImage(startImage, w, h);
 				startLabel.setIcon(startImage);
 			}
@@ -121,7 +121,7 @@ public class MenuPanel extends JPanel {
 			public void mouseReleased(MouseEvent e) {}	
 			
 			private void resize(int w, int h) {
-				ImageIcon optionsImage = new ImageIcon("../images/buttons/optionsb.png");
+				ImageIcon optionsImage = new ImageIcon("images/buttons/optionsb.png");
 				optionsImage = GraphicUtils.getScaledImage(optionsImage, w, h);
 				optionsLabel.setIcon(optionsImage);
 			}
@@ -147,7 +147,7 @@ public class MenuPanel extends JPanel {
 			public void mouseReleased(MouseEvent e) {}
 			
 			private void resize(int w, int h) {
-				ImageIcon exitImage = new ImageIcon("../images/buttons/exitb.png");
+				ImageIcon exitImage = new ImageIcon("images/buttons/exitb.png");
 				exitImage = GraphicUtils.getScaledImage(exitImage, w, h);
 			    exitLabel.setIcon(exitImage);
 			}
