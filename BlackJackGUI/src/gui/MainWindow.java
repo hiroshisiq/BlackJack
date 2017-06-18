@@ -34,7 +34,7 @@ public class MainWindow {
 	
 	private void loadIconAndTitle(JFrame window) {
 		window.setTitle("BlackJack (XorEdition)");
-		ImageIcon icon = new ImageIcon("images/icon/card.png");		
+		ImageIcon icon = new ImageIcon("../images/icon/card.png");		
 		window.setIconImage(icon.getImage());
 	}
 	

@@ -20,14 +20,14 @@ public class Card {
 	}
 	
 	public static String getStylePath() {
-		return "images/cardback/cardback" + Integer.toString(cardStyle) + ".png";
+		return "../images/cardback/cardback" + Integer.toString(cardStyle) + ".png";
 	}
 	
 	public String filePath() {
 		if(isHole)
-			return "images/cardback/cardback" + Integer.toString(cardStyle) + ".png";
+			return "../images/cardback/cardback" + Integer.toString(cardStyle) + ".png";
 		else 
-			return "images/cards/" + this.toString() + ".png";
+			return "../images/cards/" + this.toString() + ".png";
 	}
 
 	public String toString() {

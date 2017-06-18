@@ -15,7 +15,7 @@ class StandardDeck {
 		}
 	}
 	
-	public ArrayList<Card> getCards() {
+	ArrayList<Card> getCards() {
 		// Return a standard deck
 		return cards;
 	}
