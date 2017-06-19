@@ -5,6 +5,8 @@ At that point you have three choices: stand and test your hand with the dealer's
 You can hit as many times as you want until you get more than 21 points.
 You can double only if you have just two cards.
 
+Obs: When the dealer has blackjack, the player lose without chance to surrender.
+
 Options:
 In the options menu you can change the card back style and the number of standart deck that will compose the game deck. More standart decks means more dificult.
 

@@ -75,5 +75,10 @@ public class Player {
 		hand.discard(deck);
 		bet = 0;
 	}
+	
+	void surrender() {
+		money += bet/2;
+		bet = 0;
+	}
 
 }

@@ -101,21 +101,23 @@ public class GamePanel extends JPanel {
 	}
 
 	private void addGameButtons() {
-		JPanel buttonPanel = new JPanel(new GridLayout(1,4));
+		JPanel buttonPanel = new JPanel(new GridLayout(2,3));
 		GraphicUtils.setGreenBackground(buttonPanel);
 		
 		// Add hit button
 		showRemaningCards();
 		addHitButton(buttonPanel);
 		addDoubleButton(buttonPanel);
-		addStandButton(buttonPanel);
 		addBetButton(buttonPanel);
+		addStandButton(buttonPanel);
+		addSurrenderButton(buttonPanel);
+		addBetValueButtons(buttonPanel);
 		
 		// Add to game panel
 		add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
-	private void addHitButton(JPanel panel) {
+	private void addHitButton(JPanel panel ) {
 		// Generate label
 		JLabel hit = new JLabel();
 		hit.setHorizontalAlignment(JLabel.CENTER);
@@ -178,10 +180,10 @@ public class GamePanel extends JPanel {
 		});
 		
 		// Add to panel
-		panel.add(hit);
+		panel.add(hit );
 	}
 	
-	private void addDoubleButton(JPanel panel) {
+	private void addDoubleButton(JPanel panel ) {
 		// Generate label
 		JLabel button = new JLabel();
 		button.setHorizontalAlignment(JLabel.CENTER);
@@ -244,10 +246,10 @@ public class GamePanel extends JPanel {
 		});
 		
 		// Add to panel
-		panel.add(button);
+		panel.add(button );
 	}
 	
-	private void addStandButton(JPanel panel) {
+	private void addStandButton(JPanel panel ) {
 		// Generate label
 		JLabel stand = new JLabel();
 		stand.setHorizontalAlignment(JLabel.CENTER);
@@ -301,11 +303,61 @@ public class GamePanel extends JPanel {
 		});
 		
 		// Add to panel
-		panel.add(stand);
+		panel.add(stand );
 	}
 	
-	private void addBetButton(JPanel panel) {
-		JPanel betPanel = new JPanel(new GridLayout(2,1));
+	private void addSurrenderButton(JPanel panel ) {
+		// Generate label
+		JLabel label = new JLabel();
+		label.setHorizontalAlignment(JLabel.CENTER);
+		
+		// Load Images
+		String path = "../images/buttons/surrender.png";
+		int w = 180, h = 50;
+		GraphicUtils.loadImage(label, path, w, h, 0);
+		
+		// Add listener
+		label.addMouseListener(new MouseListener() {
+			// activate button 
+			private boolean isButtonActive() {
+				return (hasBet == true && hasStand == false && Ruler.getPlayerCards().size() == 2);
+			}
+			
+			// Change to game panel
+			public void mousePressed(MouseEvent e) {
+				if(isButtonActive()) {
+					GraphicUtils.loadImage(label, path, w+1, h, 3*darkFactor);
+					hasStand = true;
+					Ruler.playerSurrender();
+					addCardGrid("You surrender [Click here to continue]");					
+				}
+			}
+						
+			public void mouseEntered(MouseEvent e) {
+				if(isButtonActive())
+					GraphicUtils.loadImage(label, path, w, h, darkFactor);
+			}
+
+			public void mouseExited(MouseEvent e) {
+				GraphicUtils.loadImage(label, path, w, h, 0);
+			}
+			
+			public void mouseReleased(MouseEvent e) {
+				if(isButtonActive())
+					GraphicUtils.loadImage(label, path, w, h, darkFactor);
+				else 
+					GraphicUtils.loadImage(label, path, w, h, 0);
+			}	
+			
+			public void mouseClicked(MouseEvent e) {}			
+		});
+					
+		// Add to panel
+		panel.add(label);
+	}
+
+	private void addBetButton(JPanel panel ) {
+		JPanel betPanel = new JPanel();
 		GraphicUtils.setGreenBackground(betPanel);
 		
 		// Generate label
@@ -364,20 +416,20 @@ public class GamePanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {}
 		});
 		
-		// Crate bet values buttons
+		// add to panel
+		panel.add(bet);
+	}
+	
+	private void addBetValueButtons(JPanel panel) {
+		// Create bet values buttons
 		JPanel betValuePanel = new JPanel(new GridLayout(1,3));
 		GraphicUtils.setGreenBackground(betValuePanel);
 		addBetValueButton(betValuePanel, 100);
 		addBetValueButton(betValuePanel, 250);
 		addBetValueButton(betValuePanel, 500);
 		
-		// Add to bet 
-		betPanel.add(bet);
-		betPanel.add(betValuePanel);
-		
 		// add to panel
-		panel.add(betPanel);
-		
+		panel.add(betValuePanel);
 	}
 	
 	private void addBetValueButton(JPanel panel, int value) {

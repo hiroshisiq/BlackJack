@@ -51,6 +51,10 @@ public class Ruler {
 		player.hit(gameDeck);
 	}
 	
+	public static void playerSurrender() {
+		player.surrender();
+	}
+	
 	public static boolean playerCanDouble() {
 		return (player.getBet()/2 <= player.getMoney())? true : false;
 	}
