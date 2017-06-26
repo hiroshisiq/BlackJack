@@ -1,7 +1,7 @@
 Playing the game:
 In the early phase of each turn, you need to choose the amount of money you want to bet using the number buttons on the bottom left corner and then clicking on the bet button.
 After that the cards will be drawn. You and the dealer will receive two cards each one. The dealer's first card will be face up, but the second one (called hole) will be face down.
-At that point you have three choices: stand and test your hand with the dealer's hand, hit and get another card or double your bet and get just one more card before test your hand.
+At that point you have four choices: stand and test your hand with the dealer's hand, hit and get another card, double your bet and get just one more card before test your hand or surrender and get half of your bet back.
 You can hit as many times as you want until you get more than 21 points.
 You can double only if you have just two cards.
 
@@ -9,6 +9,7 @@ Obs: When the dealer has blackjack, the player lose without chance to surrender.
 
 Options:
 In the options menu you can change the card back style and the number of standart deck that will compose the game deck. More standart decks means more dificult.
+You can also mute the game.
 
 buttons and logos:
 http://www4.pt.flamingtext.com/
@@ -16,3 +17,10 @@ http://www4.pt.flamingtext.com/
 Cards images:
 http://code.google.com/p/vector-playing-cards/
 
+sounds:
+https://freesound.org/people/greenvwbeetle/sounds/244657/
+https://freesound.org/people/Piggimon/sounds/366217/
+https://freesound.org/people/frankum/sounds/317364/
+https://freesound.org/people/frankum/sounds/384468/
+https://freesound.org/people/f4ngy/sounds/240776/
+https://freesound.org/people/f4ngy/sounds/240777/

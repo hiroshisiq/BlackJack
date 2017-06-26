@@ -1,5 +1,5 @@
 /* 
- *  Autor:   Anderson Hiroshi de Siqueira 
+ *  Author:   Anderson Hiroshi de Siqueira 
  *  N USP:   9313197
  *  Subject: OOP - SCC0504 
  *  

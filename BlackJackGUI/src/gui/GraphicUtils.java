@@ -1,5 +1,5 @@
 /* 
- *  Autor:   Anderson Hiroshi de Siqueira 
+ *  Author:  Anderson Hiroshi de Siqueira 
  *  N USP:   9313197
  *  Subject: OOP - SCC0504 
  *  
@@ -29,10 +29,14 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class GraphicUtils {
+	private static boolean mute = false;
 	
 	public static ImageIcon getScaledImage(ImageIcon srcImg, int w, int h){
 		// Adapted from stack overflow
@@ -112,6 +116,58 @@ public class GraphicUtils {
 			button.setIcon(iImg);
 		} catch (IOException e) {
 			e.printStackTrace();					
+		}
+	}
+	
+	public static void changeMuteStatus() {
+		mute = !mute;
+	}
+	
+	public static boolean isMute() {
+		return mute;
+	}
+	
+	public static void playSound(String song) {
+		// Adapted from stack overflow: https://stackoverflow.com/questions/6045384/playing-mp3-and-wav-in-java
+	    String path;
+		
+	    // Select sound
+		switch(song) {
+			case "flip":
+				path = "../sounds/f4ngy-card-flip.wav";
+				break;
+			case "pop":
+				path = "../sounds/greenvwbeetle_pop1.wav";
+				break;
+			case "chips100" : 
+				path = "../sounds/piggimon-casino-chips-01.wav";
+				break;
+			case "chips250" : 
+				path = "../sounds/piggimon-casino-chips-03.wav";
+				break;
+			case "chips500" : 
+				path = "../sounds/piggimon-casino-chips-02.wav";
+				break;
+			default:
+				path = "none"; 
+	    }
+		
+		// Play sound
+		if(path != "none" && mute == false) {
+			try {	
+				// Load an audio input stream from a file 
+				AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+		        
+				// Allocate new clip
+				Clip clip = AudioSystem.getClip();
+		        
+				// Load sound into clip and play
+				clip.open(audioStream); 
+		        clip.start();		        
+		    } catch(Exception ex) {
+		        System.out.println("Error with playing sound.");
+		        ex.printStackTrace();
+		    }
 		}
 	}
 }

@@ -1,5 +1,5 @@
 /* 
- *  Autor:   Anderson Hiroshi de Siqueira 
+ *  Author:   Anderson Hiroshi de Siqueira 
  *  N USP:   9313197
  *  Subject: OOP - SCC0504 
  *  
@@ -106,6 +106,7 @@ public class MenuPanel extends JPanel {
 
 			public void mouseEntered(MouseEvent e) {
 				resize(120,60);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -131,6 +132,7 @@ public class MenuPanel extends JPanel {
 						
 			public void mouseEntered(MouseEvent e) {
 				resize(168,60);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -156,6 +158,7 @@ public class MenuPanel extends JPanel {
 			// Increases image size
 			public void mouseEntered(MouseEvent e) {
 				resize(96,60);
+				GraphicUtils.playSound("pop");
 			}
 
 		    // Change image back to original size

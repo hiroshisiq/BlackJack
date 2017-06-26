@@ -1,5 +1,5 @@
 /* 
- *  Autor:   Anderson Hiroshi de Siqueira 
+ *  Author:   Anderson Hiroshi de Siqueira 
  *  N USP:   9313197
  *  Subject: OOP - SCC0504 
  *  
@@ -50,13 +50,20 @@ public class GamePanel extends JPanel {
 		setLayout(new BorderLayout());
 		GraphicUtils.setGreenBackground(this);
 		
+		// Generate grid for north buttons
+		JPanel northBPanel = new JPanel(new GridLayout(1,2));		
+		
 		// Buttons
-		addBackButton(this);
+		addBackButton(northBPanel);
+		addMuteButton(northBPanel);
 		addGameButtons();
 		
 		// Remaining cards
 		showRemaningCards();
 		add(reCLabel, BorderLayout.EAST);
+		
+		// Add to option panel
+		add(northBPanel, BorderLayout.NORTH);
 		
 		firstGame = false;	
 	}
@@ -74,28 +81,13 @@ public class GamePanel extends JPanel {
 		back.addMouseListener(new MouseListener() {			
 			// Change to game panel
 			public void mousePressed(MouseEvent e) {				
-				Object[] options = {"Yes", "No"};
-		
-				int n = JOptionPane.showOptionDialog(panel,
-						"If you go back to main menu you will lose your progress.\n"
-					    + "Do you want to go back to main menu?",
-					    "Warning",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.PLAIN_MESSAGE,
-						null,     
-						options,  
-						options[1]); 
-		
-				// Check if need to go back to main menu
-				if(n == 0) {
-					MainWindow.changeToMenuPanel();
-				}
-					
+				MainWindow.changeToMenuPanel();
 				GraphicUtils.loadImage(back, imagePath, 50, 50, 0);				
 			}
 
 			public void mouseEntered(MouseEvent e) {
 				GraphicUtils.loadImage(back, imagePath, 50, 50, -20);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -113,18 +105,85 @@ public class GamePanel extends JPanel {
 		JPanel box = new JPanel();
 		box.setLayout(new BoxLayout(box, BoxLayout.X_AXIS));
 		GraphicUtils.setGreenBackground(box);
-		box.add(back);
-		
+		box.add(back);		
 		
 		// Add to panel
-		add(box, BorderLayout.NORTH);
+		panel.add(box);
+	}
+	
+	private void addMuteButton(JPanel panel) {
+		// Create label
+		JLabel label = new JLabel();
+		//back.setHorizontalAlignment(SwingConstants.RIGHT);
+		label.setAlignmentX(RIGHT_ALIGNMENT);;
+
+		// Load image
+		String muteImgPath = "../images/buttons/mute.png";
+		String voluImgPath = "../images/buttons/volume.png";
+		
+		// Checks what image to load
+		if(GraphicUtils.isMute())
+			GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+		else
+			GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);
+		
+		// Add listener
+		label.addMouseListener(new MouseListener() {			
+			// Change to game panel
+			public void mousePressed(MouseEvent e) {				
+				GraphicUtils.changeMuteStatus();
+				
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);				
+			}
+
+			public void mouseEntered(MouseEvent e) {
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -50);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -50);
+				
+				GraphicUtils.playSound("pop");
+			}
+
+			public void mouseExited(MouseEvent e) {
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);
+			}
+			
+			public void mouseReleased(MouseEvent e) {
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);
+			}
+			
+			public void mouseClicked(MouseEvent e) {}
+		});
+		
+		// Box layout
+		JPanel box = new JPanel();
+		box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+		GraphicUtils.setGreenBackground(box);
+		box.add(label);		
+		
+		// Add to panel
+		panel.add(box);
 	}
 
 	private void addGameButtons() {
 		JPanel buttonPanel = new JPanel(new GridLayout(2,3));
 		GraphicUtils.setGreenBackground(buttonPanel);
 		
-		// Add hit button
+		// Add buttons
 		showRemaningCards();
 		addHitButton(buttonPanel);
 		addDoubleButton(buttonPanel);
@@ -159,14 +218,19 @@ public class GamePanel extends JPanel {
 				if(isButtonActive()) {  
 					// Makes button 70x brighter
 					GraphicUtils.loadImage(hit, path, w+1, h, 3*darkFactor);
+					
+					// Get card and update panel
 					Ruler.playerHit();
 					addCardGrid();
+					
+					// Play sound 
+					GraphicUtils.playSound("flip");
 					
 					if(Ruler.getPlayerPoints() > 21) {
 						hasStand = true;
 						Ruler.dealerPlay();
 						
-						// If player wins
+						// checks if player wins and display the message
 						if(Ruler.evaluateWinner() == 0) {
 							Ruler.playerAddPrize();
 							addCardGrid("You win [Click here to continue]");
@@ -181,6 +245,7 @@ public class GamePanel extends JPanel {
 				// Makes button 20x brighter
 				if(isButtonActive()) {
 					GraphicUtils.loadImage(hit, path, w, h, darkFactor);
+					GraphicUtils.playSound("pop");
 				}
 			}
 
@@ -229,6 +294,9 @@ public class GamePanel extends JPanel {
 					Ruler.playerDouble();
 					addCardGrid();
 					
+					// Play sound 
+					GraphicUtils.playSound("flip");
+					
 					// Dealers turn
 					hasStand = true;
 					Ruler.dealerPlay();
@@ -247,6 +315,7 @@ public class GamePanel extends JPanel {
 				// Makes button 20x brighter
 				if(isButtonActive()) {
 					GraphicUtils.loadImage(button, path, w, h, darkFactor);
+					GraphicUtils.playSound("pop");
 				}
 			}
 
@@ -291,6 +360,11 @@ public class GamePanel extends JPanel {
 				if(isButtonActive()) {
 					GraphicUtils.loadImage(stand, path, w+1, h, 3*darkFactor);
 					hasStand = true;
+					
+					// Play sound
+					GraphicUtils.playSound("flip");
+					
+					// Dealer play
 					Ruler.dealerPlay();
 					
 					// If player wins
@@ -304,8 +378,10 @@ public class GamePanel extends JPanel {
 			}
 						
 			public void mouseEntered(MouseEvent e) {
-				if(isButtonActive())
+				if(isButtonActive()) {
 					GraphicUtils.loadImage(stand, path, w, h, darkFactor);
+					GraphicUtils.playSound("pop");
+				}
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -354,8 +430,10 @@ public class GamePanel extends JPanel {
 			}
 						
 			public void mouseEntered(MouseEvent e) {
-				if(isButtonActive())
+				if(isButtonActive()) {
 					GraphicUtils.loadImage(label, path, w, h, darkFactor);
+					GraphicUtils.playSound("pop");
+				}
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -406,6 +484,9 @@ public class GamePanel extends JPanel {
 					hasBet = true;
 					addCardGrid();
 					
+					// Play sound 
+					GraphicUtils.playSound("flip");
+					
 					if(Ruler.dealerHasBlackjack()) {
 						hasBet = true;
 						hasStand = true;
@@ -418,6 +499,7 @@ public class GamePanel extends JPanel {
 			public void mouseEntered(MouseEvent e) {
 				if(isButtonActive()) {
 					GraphicUtils.loadImage(bet, path, w, h, darkFactor);
+					GraphicUtils.playSound("pop");
 				}
 			}
 
@@ -466,7 +548,7 @@ public class GamePanel extends JPanel {
 		bet.addMouseListener(new MouseListener() {
 			// activate button 
 			private boolean isButtonActive() {	
-				return hasBet == false;
+				return hasBet == false && Ruler.getMoney() > 0;
 			}
 
 			// Change to game panel
@@ -475,12 +557,17 @@ public class GamePanel extends JPanel {
 					GraphicUtils.loadImage(bet, path, w+1, h, 3*darkFactor);
 					Ruler.playerBet(value);
 					addCardGrid();
+					
+					// Play sound
+					GraphicUtils.playSound("chips" + Integer.toString(value));
 				}
 			}
 						
 			public void mouseEntered(MouseEvent e) {
-				if(isButtonActive())
+				if(isButtonActive()) {
 					GraphicUtils.loadImage(bet, path, w, h, darkFactor);
+					GraphicUtils.playSound("pop");
+				}
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -589,6 +676,9 @@ public class GamePanel extends JPanel {
 					Ruler.discartHands();
 					addCardGrid();
 					gameRepaint();
+					
+					// Play sound
+					GraphicUtils.playSound("flip");
 					
 					status.setText("<html><body><center>" + text + "<br>" 
 							+ "Your money: "+ Ruler.getMoney() 

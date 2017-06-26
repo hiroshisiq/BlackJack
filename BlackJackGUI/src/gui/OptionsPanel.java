@@ -1,5 +1,5 @@
 /* 
- *  Autor:   Anderson Hiroshi de Siqueira 
+ *  Author:   Anderson Hiroshi de Siqueira 
  *  N USP:   9313197
  *  Subject: OOP - SCC0504 
  *  
@@ -39,12 +39,19 @@ public class OptionsPanel extends JPanel{
 		setLayout(new BorderLayout());
 		GraphicUtils.setGreenBackground(this);
 		
+		// Generate grid for north buttons
+		JPanel northBPanel = new JPanel(new GridLayout(1,2));
+		
 		// Buttons
-		addBackButton();
+		addBackButton(northBPanel);
+		addMuteButton(northBPanel);
 		addOptionsButtons();
+		
+		// Add to option panel
+		add(northBPanel, BorderLayout.NORTH);
 	}
 	
-	private void addBackButton() {
+	private void addBackButton(JPanel panel) {
 		// Create label
 		JLabel back = new JLabel();
 		back.setHorizontalAlignment(JLabel.LEFT);
@@ -63,6 +70,7 @@ public class OptionsPanel extends JPanel{
 
 			public void mouseEntered(MouseEvent e) {
 				GraphicUtils.loadImage(back, imagePath, 50, 50, -20);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -83,7 +91,75 @@ public class OptionsPanel extends JPanel{
 		box.add(back);		
 		
 		// Add to panel
-		add(box, BorderLayout.NORTH);
+		panel.add(box);
+	}
+	
+	private void addMuteButton(JPanel panel) {
+		// Create label
+		JLabel label = new JLabel();
+		//back.setHorizontalAlignment(SwingConstants.RIGHT);
+		label.setAlignmentX(RIGHT_ALIGNMENT);;
+
+		// Load image
+		String muteImgPath = "../images/buttons/mute.png";
+		String voluImgPath = "../images/buttons/volume.png";
+		
+		// Checks what image to load
+		if(GraphicUtils.isMute())
+			GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+		else
+			GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);
+		
+		// Add listener
+		label.addMouseListener(new MouseListener() {			
+			// Change to game panel
+			public void mousePressed(MouseEvent e) {				
+				GraphicUtils.changeMuteStatus();
+				
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);				
+			}
+
+			public void mouseEntered(MouseEvent e) {
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -50);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -50);
+				
+				GraphicUtils.playSound("pop");
+			}
+
+			public void mouseExited(MouseEvent e) {
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);
+			}
+			
+			public void mouseReleased(MouseEvent e) {
+				// Checks what image to load
+				if(GraphicUtils.isMute())
+					GraphicUtils.loadImage(label, muteImgPath, 50, 50, -30);
+				else
+					GraphicUtils.loadImage(label, voluImgPath, 50, 50, -30);
+			}
+			
+			public void mouseClicked(MouseEvent e) {}
+		});
+		
+		// Box layout
+		JPanel box = new JPanel();
+		box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+		GraphicUtils.setGreenBackground(box);
+		box.add(label);		
+		
+		// Add to panel
+		panel.add(box);
 	}
 	
 	private void addOptionsButtons() {
@@ -138,10 +214,12 @@ public class OptionsPanel extends JPanel{
 				GraphicUtils.loadImage(la, path, w, h+1, 2*darkFactor);
 				Ruler.prevCardStyle();
 				GraphicUtils.loadImage(cb, Card.getStylePath(), 100, 150, 0);
+				GraphicUtils.playSound("flip");
 			}
 						
 			public void mouseEntered(MouseEvent e) {
 				GraphicUtils.loadImage(la, path, w, h, darkFactor);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -163,10 +241,12 @@ public class OptionsPanel extends JPanel{
 				GraphicUtils.loadImage(ra, path, w, h+1, 2*darkFactor);
 				Ruler.nextCardStyle();
 				GraphicUtils.loadImage(cb, Card.getStylePath(), 100, 150, 0);
+				GraphicUtils.playSound("flip");
 			}
 						
 			public void mouseEntered(MouseEvent e) {
 				GraphicUtils.loadImage(ra, path, w, h, darkFactor);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -227,10 +307,12 @@ public class OptionsPanel extends JPanel{
 				GraphicUtils.loadImage(la, path, w, h+1, 2*darkFactor);
 				Ruler.prevNOD();
 				GraphicUtils.loadImage(nu, getNumberPath(), 60, 80, 0);
+				GraphicUtils.playSound("flip");
 			}
 						
 			public void mouseEntered(MouseEvent e) {
 				GraphicUtils.loadImage(la, path, w, h, darkFactor);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
@@ -252,10 +334,12 @@ public class OptionsPanel extends JPanel{
 				GraphicUtils.loadImage(ra, path, w, h+1, 2*darkFactor);
 				Ruler.nextNOD();
 				GraphicUtils.loadImage(nu, getNumberPath(), 60, 80, 0);
+				GraphicUtils.playSound("flip");
 			}
 						
 			public void mouseEntered(MouseEvent e) {
 				GraphicUtils.loadImage(ra, path, w, h, darkFactor);
+				GraphicUtils.playSound("pop");
 			}
 
 			public void mouseExited(MouseEvent e) {
